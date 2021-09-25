@@ -22,15 +22,20 @@ import lombok.Setter;
  * 
  * @author DZ-FSDev
  * @since 16
- * @version 0.0.1
+ * @version 0.0.2
  */
 @Entity
 public class Rent implements Serializable {
-	private static final long serialVersionUID = 7437522577109015377L;
+	/**
+	 * @since 0.0.2
+	 */
+	private static final long serialVersionUID = -4017724093859592920L;
 	
 	private @Getter @Setter @GeneratedValue @Id Long rentId;
-	private @Getter @Setter @Column(scale = 2, nullable = false, updatable = false, unique = true) BigDecimal amount;
+	private @Getter @Setter Province province;
+	private @Getter @Setter @Column(scale = 2, nullable = false, updatable = false) BigDecimal amount;
 	private @Getter @Setter @JsonIgnore @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "rent") List<Contract> contracts;
+	
 	
 	/**
 	 * Default constructor for the Rent domain object
@@ -38,20 +43,21 @@ public class Rent implements Serializable {
 	public Rent() {}
 
 	/**
-	 * @since 0.0.1
+	 * @since 0.0.2
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 577;
+		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
 		result = prime * result + ((contracts == null) ? 0 : contracts.hashCode());
+		result = prime * result + ((province == null) ? 0 : province.hashCode());
 		result = prime * result + ((rentId == null) ? 0 : rentId.hashCode());
 		return result;
 	}
 
 	/**
-	 * @since 0.0.1
+	 * @since 0.0.2
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -69,6 +75,11 @@ public class Rent implements Serializable {
 			if (other.contracts != null)
 				return false;
 		} else if (!contracts.equals(other.contracts))
+			return false;
+		if (province == null) {
+			if (other.province != null)
+				return false;
+		} else if (!province.equals(other.province))
 			return false;
 		if (rentId == null) {
 			if (other.rentId != null)
