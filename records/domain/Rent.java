@@ -21,21 +21,20 @@ import lombok.Setter;
  * Basic domain object representing rent to be paid by a tenant.
  * 
  * @author DZ-FSDev
- * @since 16
- * @version 0.0.2
+ * @since 17.0.1
+ * @version 0.0.3
  */
 @Entity
 public class Rent implements Serializable {
 	/**
-	 * @since 0.0.2
+	 * @since 0.0.3
 	 */
-	private static final long serialVersionUID = -4017724093859592920L;
+	private static final long serialVersionUID = 6218140415474791421L;
 	
 	private @Getter @Setter @GeneratedValue @Id Long rentId;
-	private @Getter @Setter Province province;
+	private @Getter @Setter Jurisdiction jurisdiction;
 	private @Getter @Setter @Column(scale = 2, nullable = false, updatable = false) BigDecimal amount;
 	private @Getter @Setter @JsonIgnore @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "rent") List<Contract> contracts;
-	
 	
 	/**
 	 * Default constructor for the Rent domain object
@@ -43,7 +42,7 @@ public class Rent implements Serializable {
 	public Rent() {}
 
 	/**
-	 * @since 0.0.2
+	 * @since 0.0.3
 	 */
 	@Override
 	public int hashCode() {
@@ -51,13 +50,13 @@ public class Rent implements Serializable {
 		int result = 1;
 		result = prime * result + ((amount == null) ? 0 : amount.hashCode());
 		result = prime * result + ((contracts == null) ? 0 : contracts.hashCode());
-		result = prime * result + ((province == null) ? 0 : province.hashCode());
+		result = prime * result + ((jurisdiction == null) ? 0 : jurisdiction.hashCode());
 		result = prime * result + ((rentId == null) ? 0 : rentId.hashCode());
 		return result;
 	}
 
 	/**
-	 * @since 0.0.2
+	 * @since 0.0.3
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -76,10 +75,7 @@ public class Rent implements Serializable {
 				return false;
 		} else if (!contracts.equals(other.contracts))
 			return false;
-		if (province == null) {
-			if (other.province != null)
-				return false;
-		} else if (!province.equals(other.province))
+		if (jurisdiction != other.jurisdiction)
 			return false;
 		if (rentId == null) {
 			if (other.rentId != null)
@@ -87,5 +83,14 @@ public class Rent implements Serializable {
 		} else if (!rentId.equals(other.rentId))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @since 0.0.3
+	 */
+	@Override
+	public String toString() {
+		return "Rent {rentId=" + rentId + ", jurisdiction=" + jurisdiction + ", amount=" + amount + ", contracts="
+				+ contracts + "}";
 	}
 }
